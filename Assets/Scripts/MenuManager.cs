@@ -10,10 +10,24 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI bestScoreText;
     public TMP_InputField nameField;
 
+    private void Start()
+    {
+        if (DataManager.Instance.playerName != "")
+        {
+            // update player name and high score
+            bestScoreText.text = DataManager.Instance.playerName + "'s High Score: " + DataManager.Instance.bestScore;
+        }
+        else
+        {
+            bestScoreText.text = "BrickBreaker!";
+        }
+    }
+
     public void StartGame()
     {
         if (nameField != null && nameField.text != "")
         {
+            DataManager.Instance.playerName = nameField.text;
             SceneManager.LoadScene(1);
         }
         else

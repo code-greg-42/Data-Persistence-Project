@@ -6,6 +6,9 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
 
+    public string playerName;
+    public int bestScore;
+
     private void Awake()
     {
         if (Instance != null)
