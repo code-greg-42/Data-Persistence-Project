@@ -24,13 +24,11 @@ public class DataManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         LoadDataFromFile();
+    }
 
-        if (playersData.Count > 0)
-        {
-            var lastPlayerData = playersData[playersData.Count - 1];
-            currentPlayerName = lastPlayerData.playerName;
-            currentPlayerBestScore = lastPlayerData.bestScore;
-        }
+    private void OnApplicationQuit()
+    {
+        SaveDataToFile();
     }
 
     public void SavePlayerData(string name, int score)
@@ -68,7 +66,8 @@ public class DataManager : MonoBehaviour
 
     public void SaveDataToFile()
     {
-        string json = JsonUtility.ToJson(new Serialization<PlayerData>(playersData));
+        var data = new GameData(playersData, currentPlayerName);
+        string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/saveFile.json", json);
     }
 
@@ -78,23 +77,9 @@ public class DataManager : MonoBehaviour
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            Serialization<PlayerData> data = JsonUtility.FromJson<Serialization<PlayerData>>(json);
-            playersData = data.ToList();
-        }
-    }
-
-    // wrapper for being able to serialize lists to json
-    [System.Serializable]
-    private class Serialization<T>
-    {
-        [SerializeField]
-        private List<T> items;
-
-        public List<T> ToList() => items;
-
-        public Serialization(List<T> items)
-        {
-            this.items = items;
+            GameData data = JsonUtility.FromJson<GameData>(json);
+            playersData = data.players;
+            LoadPlayerData(data.lastActivePlayer);
         }
     }
 
@@ -109,6 +94,20 @@ public class DataManager : MonoBehaviour
         {
             playerName = name;
             bestScore = score;
+        }
+    }
+
+    // class for including the last active player, so the session can start with their high score shown
+    [System.Serializable]
+    private class GameData
+    {
+        public List<PlayerData> players;
+        public string lastActivePlayer;
+
+        public GameData(List<PlayerData> players, string lastActivePlayer)
+        {
+            this.players = players;
+            this.lastActivePlayer = lastActivePlayer;
         }
     }
 }
