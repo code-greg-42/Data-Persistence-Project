@@ -12,10 +12,10 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        if (DataManager.Instance.playerName != "")
+        if (DataManager.Instance.currentPlayerName != "")
         {
             // update player name and high score
-            bestScoreText.text = DataManager.Instance.playerName + "'s High Score: " + DataManager.Instance.bestScore;
+            bestScoreText.text = DataManager.Instance.currentPlayerName + "'s High Score: " + DataManager.Instance.currentPlayerBestScore;
         }
         else
         {
@@ -27,7 +27,7 @@ public class MenuManager : MonoBehaviour
     {
         if (nameField != null && nameField.text != "")
         {
-            DataManager.Instance.playerName = nameField.text;
+            DataManager.Instance.LoadPlayerData(nameField.text);
             SceneManager.LoadScene(1);
         }
         else

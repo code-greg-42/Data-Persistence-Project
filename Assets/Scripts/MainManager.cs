@@ -23,7 +23,7 @@ public class MainManager : MonoBehaviour
     void Start()
     {
         // update player name and high score
-        BestScoreText.text = DataManager.Instance.playerName + "'s High Score: " + DataManager.Instance.bestScore;
+        BestScoreText.text = DataManager.Instance.currentPlayerName + "'s High Score: " + DataManager.Instance.currentPlayerBestScore;
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -82,9 +82,10 @@ public class MainManager : MonoBehaviour
         GameOverText.SetActive(true);
 
         // add new high score if applicable
-        if (m_Points > DataManager.Instance.bestScore)
+        if (m_Points > DataManager.Instance.currentPlayerBestScore)
         {
-            DataManager.Instance.bestScore = m_Points;
+            DataManager.Instance.currentPlayerBestScore = m_Points;
+            DataManager.Instance.SavePlayerData(DataManager.Instance.currentPlayerName, m_Points);
         }
     }
 }
