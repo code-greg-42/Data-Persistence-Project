@@ -446,7 +446,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Score : 0'
+  m_Text: 'score : 0'
 --- !u!222 &188020407
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1354,8 +1354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c13718302ee7d48428ec0563ec0396e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: 
-  bestScore: 0
+  currentPlayerName: 
+  currentPlayerBestScore: 0
+  playersData: []
 --- !u!4 &1622281042
 Transform:
   m_ObjectHideFlags: 0
@@ -1522,7 +1523,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Return To Menu
+  m_text: return to menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

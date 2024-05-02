@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
@@ -21,6 +22,15 @@ public class DataManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        LoadDataFromFile();
+
+        if (playersData.Count > 0)
+        {
+            var lastPlayerData = playersData[playersData.Count - 1];
+            currentPlayerName = lastPlayerData.playerName;
+            currentPlayerBestScore = lastPlayerData.bestScore;
+        }
     }
 
     public void SavePlayerData(string name, int score)
@@ -28,14 +38,17 @@ public class DataManager : MonoBehaviour
         var player = playersData.Find(player => player.playerName == name);
         if (player != null)
         {
-            // update existing score
+            // update existing score in list
             player.bestScore = score;
         }
         else
         {
-            // add new player data
+            // add new player data to list
             playersData.Add(new PlayerData(name, score));
         }
+
+        // save data to persistent data storage
+        SaveDataToFile();
     }
 
     public void LoadPlayerData(string name)
@@ -50,6 +63,23 @@ public class DataManager : MonoBehaviour
         {
             currentPlayerName = name;
             currentPlayerBestScore = 0;
+        }
+    }
+
+    public void SaveDataToFile()
+    {
+        string json = JsonUtility.ToJson(new Serialization<PlayerData>(playersData));
+        File.WriteAllText(Application.persistentDataPath + "/saveFile.json", json);
+    }
+
+    public void LoadDataFromFile()
+    {
+        string path = Application.persistentDataPath + "/saveFile.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            Serialization<PlayerData> data = JsonUtility.FromJson<Serialization<PlayerData>>(json);
+            playersData = data.ToList();
         }
     }
 

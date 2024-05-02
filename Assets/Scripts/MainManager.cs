@@ -23,7 +23,7 @@ public class MainManager : MonoBehaviour
     void Start()
     {
         // update player name and high score
-        BestScoreText.text = DataManager.Instance.currentPlayerName + "'s High Score: " + DataManager.Instance.currentPlayerBestScore;
+        BestScoreText.text = DataManager.Instance.currentPlayerName + "'s high score: " + DataManager.Instance.currentPlayerBestScore;
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -68,7 +68,7 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = $"score : {m_Points}";
     }
 
     public void ReturnToMenu()
